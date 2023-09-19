@@ -1,0 +1,25 @@
+.landingContainer {
+     background-color: #003a70;
+     justify-content: center;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     width: 100%;
+     height: 100vh;
+     color: white;
+     padding: 2rem 1rem;
+}
+
+#experienceButton {
+     background-color: white; 
+     color: black; 
+}
+
+.logoHeader {
+     font-size: 48px;
+     font-weight: bold;
+}
+.instructions {
+     height: 80%;
+     font-size: 11px;    
+}
