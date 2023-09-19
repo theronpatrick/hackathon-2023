@@ -1,6 +1,7 @@
 import  "../styles/carInfo.css";
 import 'react-dropdown/style.css';
 import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+ import { Link } from "@remix-run/react";
 
 
 export interface CarInfoProps {
@@ -49,7 +50,14 @@ export default function CarInfo (props: CarInfoProps) {
 <TextField id="outlined-basic" label="Price" variant="outlined" />
 
       </div>
-      <button>Next Question {'->'}</button>
+      <Link
+                className=""
+                to={{
+                  pathname: "/budgetPage",
+                }}
+              >
+                Next Questions {'->'}
+              </Link>
     </div>
   );
 }

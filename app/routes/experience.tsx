@@ -1,6 +1,7 @@
 import  "../styles/experience.css";
 import 'react-dropdown/style.css';
 import {Button } from '@mui/material';
+import { Link } from "@remix-run/react";
 
 
 export interface CarInfoProps {
@@ -18,7 +19,15 @@ export default function CarInfo (props: CarInfoProps) {
          &nbsp;&nbsp;&nbsp;
           <Button id= "experienceButton" variant="contained">Expert</Button>
       </div>
-      <button>Next Question {'->'}</button>
+
+      <Link
+                className=""
+                to={{
+                  pathname: "/pushback",
+                }}
+              >
+                Next Questions {'->'}
+              </Link>
     </div>
   );
 }

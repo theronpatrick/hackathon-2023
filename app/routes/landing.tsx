@@ -82,7 +82,7 @@ export default function LandingPage(props: LandingPageProps) {
       </div>
       <Link
         to={{
-          pathname: "/chat",
+          pathname: "/carInfo",
           search: encodeStateToSearchParams({ role }),
         }}
       >

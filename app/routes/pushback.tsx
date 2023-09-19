@@ -8,6 +8,7 @@ import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied
 import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
+import { Link } from "@remix-run/react";
 
 const StyledRating = styled(Rating)(({ theme }) => ({
   '& .MuiRating-iconEmpty .MuiSvgIcon-root': {
@@ -64,7 +65,14 @@ export default function Pushback (props: PushbackProps) {
   highlightSelectedOnly
 />
       </div>
-      <button>Next Question {'->'}</button>
+      <Link
+                className=""
+                to={{
+                  pathname: "/packages",
+                }}
+              >
+                Next Questions {'->'}
+              </Link>
     </div>
   );
 }
