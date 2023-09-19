@@ -9,6 +9,9 @@
      color: white;
      padding: 2rem 1rem;
 }
+body {
+     background-color: #003a70;
+}
 
 .logoHeader {
      font-size: 48px;
@@ -17,4 +20,8 @@
 .instructions {
      height: 80%;
      font-size: 11px;    
+}
+.button {
+     background-color: #008001;
+     padding: 1rem 2rem;
 }

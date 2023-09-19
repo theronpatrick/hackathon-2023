@@ -5,8 +5,11 @@ import "../styles/chat.css";
 
 function ChatApp() {
   const [inputText, setInputText] = useState("");
-  const [responseText, setResponseText] = useState("");
+  const [conversation, updateConversation] = useState([]);
   const [isLoading, setIsLoading] = useState(false); // Add a loading state
+
+  const tempBudget = 15000;
+  const carPrice = 7000;
 
   const secretKey = "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";
   const apiUrl = "https://api.openai.com/v1/chat/completions"; // Replace with the actual API endpoint
@@ -16,7 +19,7 @@ function ChatApp() {
   };
 
   const handleSubmit = async (e) => {
-    console.log("in handle");
+    updateConversation([...conversation, inputText]);
     e.preventDefault();
     setIsLoading(true); // Set loading state to true when submitting
 
@@ -44,29 +47,36 @@ function ChatApp() {
       );
 
       const message = response.data.choices[0].message.content;
-      setResponseText(message);
+
+
+      updateConversation([...conversation, { role: "user", content: inputText }, { role: "bot", content: message }]);
     } catch (error) {
       console.error("Error:", error);
     } finally {
       setIsLoading(false); // Set loading state back to false when the response is returned
+      setInputText('');
     }
   };
 
   return (
-    <main className="dadChat min-h-screen flex flex-col items-center justify-center mx-5">
-      <h1 className="text-2xl font-bold mb-4 test">Example Prompt</h1>
-      <div className="w-full flex">
-        <form onSubmit={handleSubmit} className="w-full">
+    <main className="dadChatContainer">
+      <div className="conversation">
+        {conversation && conversation.map((message) => {
+          return <div className={"response"}><div className={`${message.role === 'user' ? 'userChat' : 'botChat'} msgContent`}>{message.content}</div></div>
+        })}
+      </div>
+      <div className="inputFooter">
+        <form onSubmit={handleSubmit} className="inputAndButton">
           <input
             type="text"
             placeholder="Type your message"
             value={inputText}
             onChange={handleInputChange}
-            className="w-full p-2 rounded border border-gray-400 focus:border-gray-600 focus:outline-none block"
+            className="input"
           />
           <button
             onClick={handleSubmit}
-            className={`p-2 mt-2 bg-blue-500 text-white rounded w-full ${
+            className={`submitButton ${
               isLoading ? "opacity-50 cursor-not-allowed" : "" // Disable the button and reduce opacity when loading
             }`}
             disabled={isLoading}
@@ -74,26 +84,18 @@ function ChatApp() {
             {isLoading ? (
               <span className="spin mr-2">&#9696;</span> // Loading spinner
             ) : (
-              "Submit"
+              <svg className="sendIcon" width="50px" height="50px" viewBox="0 0 24 24" >
+                <path fill-rule="evenodd" fill={`${isLoading ? 'grey' : '#008001'}`} clip-rule="evenodd" d="M12 2C6.47715 2 2 6.47715 2 12C2 13.8153 2.48451 15.5196 3.33127 16.9883C3.50372 17.2874 3.5333 17.6516 3.38777 17.9647L2.53406 19.8016C2.00986 20.7933 2.72736 22 3.86159 22H12C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM11.2929 8.29289C11.6834 7.90237 12.3166 7.90237 12.7071 8.29289L15.7071 11.2929C15.8946 11.4804 16 11.7348 16 12C16 12.2652 15.8946 12.5196 15.7071 12.7071L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071C10.9024 15.3166 10.9024 14.6834 11.2929 14.2929L12.5858 13H9C8.44772 13 8 12.5523 8 12C8 11.4477 8.44772 11 9 11H12.5858L11.2929 9.70711C10.9024 9.31658 10.9024 8.68342 11.2929 8.29289Z"/>
+              </svg>
             )}
           </button>
         </form>
-      </div>
-
-      {!(isLoading || responseText) && <div className="h-[50vh]"></div>}
-
-      {(isLoading || responseText) && (
-        <div className="w-full mt-4 h-[50vh] overflow-y-auto">
-          <h2 className="text-lg font-semibold">Response:</h2>
-          <p className="border p-2 border-gray-400 rounded">
-            {isLoading ? (
-              <span className="spin block w-4">&#9696;</span> // Loading spinner
-            ) : (
-              <span>{responseText}</span>
-            )}
-          </p>
+        <div className="budgetTracker">
+          <div className="price bar" style={{ width: `${(carPrice / tempBudget) * 100}%` }}>{'Car Price'}</div>
         </div>
-      )}
+      </div>
+      
+      
     </main>
   );
 }
