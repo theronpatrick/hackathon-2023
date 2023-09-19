@@ -86,7 +86,7 @@ export default function LandingPage(props: LandingPageProps) {
           search: encodeStateToSearchParams({ role }),
         }}
       >
-        <button>Get Started {"->"}</button>
+        <button>Get Started ➡️</button>
       </Link>
     </div>
   );
