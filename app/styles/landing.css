@@ -18,7 +18,7 @@ body {
   font-size: 48px;
   font-weight: bold;
 }
-.instructions {
+.landingInstructions {
   height: 60%;
   overflow: scroll;
   margin-bottom: 10px;

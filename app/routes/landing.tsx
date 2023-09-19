@@ -38,7 +38,7 @@ export default function LandingPage(props: LandingPageProps) {
   return (
     <div className="landingContainer">
       <h1 className="logoHeader">D.A.D</h1>
-      <div className="instructions">
+      <div className="landingInstructions">
         <p>
           Are you tired of walking into a car dealership and feeling overwhelmed
           by the barrage of add-ons and options being thrown your way? Say
