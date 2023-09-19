@@ -55,18 +55,18 @@ function ChatApp() {
   return (
     <main className="dadChat min-h-screen flex flex-col items-center justify-center mx-5">
       <h1 className="text-2xl font-bold mb-4 test">Example Prompt</h1>
-      <div className="w-full max-w-md flex">
-        <form onSubmit={handleSubmit}>
+      <div className="w-full flex">
+        <form onSubmit={handleSubmit} className="w-full">
           <input
             type="text"
             placeholder="Type your message"
             value={inputText}
             onChange={handleInputChange}
-            className="w-full p-2 rounded border border-gray-400 focus:border-gray-600 focus:outline-none"
+            className="w-full p-2 rounded border border-gray-400 focus:border-gray-600 focus:outline-none block"
           />
           <button
             onClick={handleSubmit}
-            className={`p-2 mt-2 bg-blue-500 text-white rounded ${
+            className={`p-2 mt-2 bg-blue-500 text-white rounded w-full ${
               isLoading ? "opacity-50 cursor-not-allowed" : "" // Disable the button and reduce opacity when loading
             }`}
             disabled={isLoading}
@@ -79,10 +79,19 @@ function ChatApp() {
           </button>
         </form>
       </div>
-      {responseText && (
-        <div className="w-full mt-4">
+
+      {!(isLoading || responseText) && <div className="h-[50vh]"></div>}
+
+      {(isLoading || responseText) && (
+        <div className="w-full mt-4 h-[50vh] overflow-y-auto">
           <h2 className="text-lg font-semibold">Response:</h2>
-          <p className="border p-2 border-gray-400 rounded">{responseText}</p>
+          <p className="border p-2 border-gray-400 rounded">
+            {isLoading ? (
+              <span className="spin block w-4">&#9696;</span> // Loading spinner
+            ) : (
+              <span>{responseText}</span>
+            )}
+          </p>
         </div>
       )}
     </main>
