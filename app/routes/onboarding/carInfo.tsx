@@ -1,12 +1,14 @@
-import  "../styles/carInfo.css";
+import  "../../styles/carInfo.css";
 import 'react-dropdown/style.css';
 import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { Link, useSearchParams } from "@remix-run/react";
 
 
 export interface CarInfoProps {
 }
 
 export default function CarInfo (props: CarInfoProps) {
+  const [searchParams] = useSearchParams();
   return (
     <div className="landingContainer">
       <h1 className="logoHeader">Car Info?</h1>
@@ -49,7 +51,15 @@ export default function CarInfo (props: CarInfoProps) {
 <TextField id="outlined-basic" label="Price" variant="outlined" />
 
       </div>
-      <button>Next Question {'->'}</button>
+      <Link
+                className=""
+                to={{
+                  pathname: "/budgetPage",
+                  search: searchParams.toString(),
+                }}
+              >
+                Next Questions {'->'}
+              </Link>
     </div>
   );
 }
