@@ -11,11 +11,15 @@
 }
 
 #outlined-basic {
-     background-color: #FFFFFF;
+     color: white; 
+     outline-color: white;
+     border-color: white;
 }
 
 #demo-simple-select-label {
-     color: white; 
+     color: white !important; 
+     outline-color: white;
+     border-color: white;
 }
 
 .logoHeader {

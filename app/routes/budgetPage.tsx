@@ -3,7 +3,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Slider from "@mui/material/Slider";
 import "../styles/budget.css";
-import TextField from "@mui/material/TextField";
+import { Link } from "@remix-run/react";
+
 export interface BudgetPageProps {}
 
 function calculateValue(value: number) {
@@ -40,6 +41,19 @@ export default function NonLinearSlider(props: BudgetPageProps) {
           aria-labelledby="non-linear-slider"
         />
       </Box>
+      <Link
+                className=""
+                to={{
+                  pathname: "/experience",
+                }}
+              >
+                Next Questions {'->'}
+              </Link>
     </div>
+
+    
+    
+
+    
   );
 }

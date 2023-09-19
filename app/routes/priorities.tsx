@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
 import "../styles/landing.css";
+import { Link } from "@remix-run/react";
 
 export interface PrioritiesPageProps {}
 
@@ -24,6 +25,14 @@ export default function PrioritiesPage(props: PrioritiesPageProps) {
         <Typography component="legend">UPGRADES</Typography>
         <Rating name="size-large" defaultValue={2} size="large" />
       </Box>
+      <Link
+                className=""
+                to={{
+                  pathname: "/script",
+                }}
+              >
+                Go to Chat {'->'}
+              </Link>
     </div>
   );
 }

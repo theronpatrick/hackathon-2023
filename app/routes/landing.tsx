@@ -80,14 +80,7 @@ export default function LandingPage(props: LandingPageProps) {
           ensuring a pleasant dealership experience. Let's get started!
         </p>
       </div>
-      <Link
-        to={{
-          pathname: "/chat",
-          search: encodeStateToSearchParams({ role }),
-        }}
-      >
-        <button>Get Started {"->"}</button>
-      </Link>
+      <Link to="/carInfo"><button>Get Started {'->'}</button></Link>
     </div>
   );
 }

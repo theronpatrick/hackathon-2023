@@ -3,6 +3,7 @@ import 'react-dropdown/style.css';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import { Link } from "@remix-run/react";
 
 
 export interface PackagesProps {
@@ -27,7 +28,14 @@ export default function Packages (props: PackagesProps) {
       <FormControlLabel control={<Checkbox defaultChecked />} label="Key fob replacements" />
     </FormGroup>
       </div>
-      <button>Next Question {'->'}</button>
+      <Link
+                className=""
+                to={{
+                  pathname: "/priorities",
+                }}
+              >
+                Next Questions {'->'}
+              </Link>
     </div>
   );
 }
