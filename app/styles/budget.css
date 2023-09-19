@@ -1,0 +1,14 @@
+.budgetBody {
+  margin-top: 40px;
+  align-items: center;
+}
+#outlined-basic {
+  color: white !important;
+}
+#price {
+  font-size: 32px;
+  font-weight: bold;
+}
+.logoHeader {
+  text-align: center;
+}
