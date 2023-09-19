@@ -7,8 +7,6 @@ import "../styles/landing.css";
 export interface PrioritiesPageProps {}
 
 export default function PrioritiesPage(props: PrioritiesPageProps) {
-  const [value, setValue] = React.useState<number | null>(2);
-
   return (
     <div className="landingContainer">
       <h1 className="logoHeader">RATE YOUR PRIORITIES</h1>
