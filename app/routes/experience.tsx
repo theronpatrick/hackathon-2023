@@ -12,6 +12,12 @@ import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
 import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
 
+import { roles } from "../helpers/roles";
+import {
+  encodeStateToSearchParams,
+  decodeStateFromSearchParams,
+} from "../helpers/params.js";
+
 const StyledRating = styled(Rating)(({ theme }) => ({
   "& .MuiRating-iconEmpty .MuiSvgIcon-root": {
     color: theme.palette.action.disabled,
@@ -24,40 +30,40 @@ function IconContainer(props: IconContainerProps) {
 }
 
 const customIcons = [
-  { icon: <SentimentVeryDissatisfiedIcon color="error" />, label: "Beginner" },
+  { icon: <SentimentVeryDissatisfiedIcon color="error" />, label: "newbie" },
   {
     icon: <SentimentDissatisfiedIcon color="error" />,
-    label: "Novice",
+    label: "novice",
   },
   {
     icon: <SentimentSatisfiedIcon color="warning" />,
-    label: "Intermediate",
+    label: "intermediate",
   },
   {
     icon: <SentimentSatisfiedAltIcon color="success" />,
-    label: "Advanced",
+    label: "advanced",
   },
   {
     icon: <SentimentVerySatisfiedIcon color="success" />,
-    label: "Expert",
+    label: "expert",
   },
 ];
 
 export default function Experience() {
-  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const defaultIndex = 1;
+  const [selectedIndex, setSelectedIndex] = useState(defaultIndex);
+  const [selectedExperience, setSelectedExperience] = useState(
+    customIcons[defaultIndex].label,
+  );
 
   const handleClick = (index) => {
-    console.log("clicked ", index);
-
     setSelectedIndex(index);
+    setSelectedExperience(customIcons[index].label);
   };
 
   const SmileIcons = () => {
     return customIcons.map((icon, index) => {
       const isSelected = index === selectedIndex;
-
-      console.log("index ", index);
-      console.log("selected", selectedIndex);
 
       const buttonClassName = `experienceButton ${
         isSelected ? "selected" : ""
@@ -65,6 +71,7 @@ export default function Experience() {
 
       return (
         <Button
+          key={icon.label}
           className={buttonClassName}
           onClick={() => {
             handleClick(index);
@@ -94,6 +101,7 @@ export default function Experience() {
         className=""
         to={{
           pathname: "/packages",
+          search: encodeStateToSearchParams({ experience: selectedExperience }),
         }}
       >
         <button className="nextButton">Next Question ➡️</button>
