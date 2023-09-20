@@ -3,20 +3,21 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Slider from "@mui/material/Slider";
 import "../styles/budget.css";
-import { Link } from "@remix-run/react";
+import { Link, useLocation } from "@remix-run/react";
+import captureFormValues from '../helpers/formCapture.js'
 
 export interface BudgetPageProps {}
-
-function calculateValue(value: number) {
-  return value * 1000;
-}
-
 export default function NonLinearSlider(props: BudgetPageProps) {
+  const location = useLocation();
+  const initialFormValues = location.state || {};
   const [value, setValue] = React.useState<number>(0);
+  const [formVals, setFormVals] = React.useState(initialFormValues);
   const handleChange = (event: Event, newValue: number | number[]) => {
     if (typeof newValue === "number") {
       setValue(newValue);
     }
+    event.preventDefault();
+    setFormVals(captureFormValues(event, formVals));
   };
 
   return (
@@ -26,18 +27,22 @@ export default function NonLinearSlider(props: BudgetPageProps) {
       <Box sx={{ width: 250 }}>
         <div className="budgetBody">
           <Typography id="price" gutterBottom>
-            Price: $ {calculateValue(value)}
+            Price: $ {value}
           </Typography>
         </div>
         <Slider
-          scale={calculateValue}
           onChange={handleChange}
+          min={0}
+          max={50000}
+          step={100}
+          name="budget"
           valueLabelDisplay="auto"
           aria-labelledby="non-linear-slider"
         />
       </Box>
       <Link
         className=""
+        state={formVals}
         to={{
           pathname: "/experience",
         }}

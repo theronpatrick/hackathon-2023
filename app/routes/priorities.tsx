@@ -3,11 +3,26 @@ import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
 import "../styles/landing.css";
-import { Link } from "@remix-run/react";
+import { Link, useLocation } from "@remix-run/react";
 
 export interface PrioritiesPageProps {}
 
 export default function PrioritiesPage(props: PrioritiesPageProps) {
+  const location = useLocation();
+  const formValues = location.state || {};
+  let priorities = {
+    safety: '2',
+    price: '2',
+    tech: '2',
+    upgrades: '2'
+  }
+
+  const handleChange = (e: SelectChangeEvent) => { 
+    priorities[e.target.name] = e.target.value;
+    formValues.priorities = priorities;
+    console.log(priorities);
+    console.log(formValues);
+  };
   return (
     <div className="landingContainer">
       <h1 className="logoHeader">RATE YOUR PRIORITIES</h1>
@@ -17,21 +32,22 @@ export default function PrioritiesPage(props: PrioritiesPageProps) {
         }}
       >
         <Typography component="legend">SAFETY</Typography>
-        <Rating name="size-large" defaultValue={2} size="large" />
+        <Rating name="safety" onChange={handleChange} defaultValue={2} size="large" />
         <Typography component="legend">PRICE</Typography>
-        <Rating name="size-large" defaultValue={2} size="large" />
+        <Rating name="price" onChange={handleChange} defaultValue={2} size="large" />
         <Typography component="legend">TECH</Typography>
-        <Rating name="size-large" defaultValue={2} size="large" />
+        <Rating name="tech" onChange={handleChange} defaultValue={2} size="large" />
         <Typography component="legend">UPGRADES</Typography>
-        <Rating name="size-large" defaultValue={2} size="large" />
+        <Rating name="upgrades" onChange={handleChange} defaultValue={2} size="large" />
       </Box>
       <Link
+        state={formValues}
         className=""
         to={{
           pathname: "/script",
         }}
       >
-        <button className="nextButton">Go To Chat ➡️</button>
+        <button className="nextButton">Give me a script ➡️</button>
       </Link>
     </div>
   );

@@ -10,23 +10,22 @@ import {
 } from "@mui/material";
 import { Link } from "@remix-run/react";
 import React from "react";
+import captureFormValues from '../helpers/formCapture.js'
 
 export interface CarInfoProps {}
 
 export default function CarInfo(props: CarInfoProps) {
   const [make, setMake] = React.useState("");
   const [model, setModel] = React.useState("");
+  const [formVals, setFormVals] = React.useState({});
 
-  const handleChange = (e: SelectChangeEvent) => {
-    const updatedMake = e.target.value;
-    setMake(updatedMake);
-    if (updatedMake == "Audi") {
-      setModel("Audi");
-    } else if (updatedMake == "Dodge") {
-      setModel("Dodge");
-    } else if (updatedMake == "Honda") {
-      setModel("Honda");
-    }
+  const handleChange = (e: SelectChangeEvent) => {    
+    setFormVals(captureFormValues(e, formVals));
+    const selectedMake = formVals.make || '';
+    const selectedModel = formVals.model || '';
+    setMake(selectedMake);
+    setModel(selectedModel);
+    console.log(formVals);
   };
   return (
     <div className="landingContainer">
@@ -38,6 +37,7 @@ export default function CarInfo(props: CarInfoProps) {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
+            name="make"
             value={make}
             label="Make"
             onChange={handleChange}
@@ -48,15 +48,16 @@ export default function CarInfo(props: CarInfoProps) {
           </Select>
         </FormControl>
 
-        {model == "Audi" && (
+        {make == "Audi" && (
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Model</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              //value={model}
+              name="model"
+              value={model}
               label="Model"
-              //onChange={handleChange}
+              onChange={handleChange}
             >
               <MenuItem value={"A4"}>A4</MenuItem>
               <MenuItem value={"A5"}>A5</MenuItem>
@@ -65,15 +66,16 @@ export default function CarInfo(props: CarInfoProps) {
           </FormControl>
         )}
 
-        {model == "Dodge" && (
+        {make == "Dodge" && (
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Model</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              //value={model}
+              name="model"
+              value={model}
               label="Model"
-              // onChange={handleChange}
+              onChange={handleChange}
             >
               <MenuItem value={"Avenger"}>Avenger</MenuItem>
               <MenuItem value={"Caliber"}>Caliber</MenuItem>
@@ -82,15 +84,16 @@ export default function CarInfo(props: CarInfoProps) {
           </FormControl>
         )}
 
-        {model == "Honda" && (
+        {make == "Honda" && (
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Model</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              //value={model}
+              name="model"
+              value={model}
               label="Model"
-              // onChange={handleChange}
+              onChange={handleChange}
             >
               <MenuItem value={"Accord"}>Accord</MenuItem>
               <MenuItem value={"Civic"}>Civic</MenuItem>
@@ -103,22 +106,29 @@ export default function CarInfo(props: CarInfoProps) {
           label="Year"
           variant="outlined"
           margin="normal"
+          name='year' 
+          onChange={handleChange}
         />
         <TextField
           id="outlined-basic"
           label="Mileage"
           variant="outlined"
           margin="normal"
+          name='mileage'
+          onChange={handleChange}
         />
         <TextField
           id="outlined-basic"
           label="Car Price"
           variant="outlined"
           margin="normal"
+          name='price'
+          onChange={handleChange}
         />
       </div>
       <Link
         className=""
+        state={formVals}
         to={{
           pathname: "/budgetPage",
         }}

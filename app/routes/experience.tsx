@@ -3,7 +3,7 @@ import "react-dropdown/style.css";
 
 import React, { useState } from "react";
 import { Button } from "@mui/material";
-import { Link } from "@remix-run/react";
+import { Link, useLocation } from "@remix-run/react";
 import { styled } from "@mui/material/styles";
 import Rating, { IconContainerProps } from "@mui/material/Rating";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
@@ -11,6 +11,7 @@ import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied
 import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
 import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
+import captureFormValues from '../helpers/formCapture.js'
 
 import { roles } from "../helpers/roles";
 import {
@@ -50,13 +51,19 @@ const customIcons = [
 ];
 
 export default function Experience() {
+  const location = useLocation();
+  const initialFormValues = location.state || {};
   const defaultIndex = 1;
   const [selectedIndex, setSelectedIndex] = useState(defaultIndex);
   const [selectedExperience, setSelectedExperience] = useState(
     customIcons[defaultIndex].label,
   );
+  const [formVals, setFormVals] = useState(initialFormValues);
 
   const handleClick = (index) => {
+    let tempForm = formVals;
+    tempForm.experience = index;
+    setFormVals(tempForm);
     setSelectedIndex(index);
     setSelectedExperience(customIcons[index].label);
   };
@@ -99,6 +106,7 @@ export default function Experience() {
 
       <Link
         className=""
+        state={formVals}
         to={{
           pathname: "/packages",
           search: encodeStateToSearchParams({ experience: selectedExperience }),
