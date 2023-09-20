@@ -13,8 +13,6 @@ function calculateValue(value: number) {
 
 export default function NonLinearSlider(props: BudgetPageProps) {
   const [value, setValue] = React.useState<number>(10);
-  console.log(value);
-  console.log(calculateValue.toLocaleString());
   const handleChange = (event: Event, newValue: number | number[]) => {
     if (typeof newValue === "number") {
       setValue(newValue);
@@ -42,18 +40,13 @@ export default function NonLinearSlider(props: BudgetPageProps) {
         />
       </Box>
       <Link
-                className=""
-                to={{
-                  pathname: "/experience",
-                }}
-              >
-                Next Questions {'->'}
-              </Link>
+        className=""
+        to={{
+          pathname: "/experience",
+        }}
+      >
+        Next Questions {"->"}
+      </Link>
     </div>
-
-    
-    
-
-    
   );
 }
