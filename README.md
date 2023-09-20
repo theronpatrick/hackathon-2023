@@ -1,4 +1,6 @@
-## DAD: Dealership Automated Deliberator
+# DAD: Dealership Automated Deliberator
+## Theron Patrick, Jeff Golota, Daniel Castrillon Reyes, Ananya Radhakrishnan, Muno Ali  
+
 Are you tired of walking into a car dealership and feeling overwhelmed by the barrage of add-ons and options being thrown your way? Say goodbye to that anxiety, because D.A.D is here to be your trusted companion in the car-buying journey. D.A.D, which stands for "Dealership Automated Deliberator," is your personal chatbot assistant designed to help you navigate the intricate world of car dealerships with confidence and ease.
 
 ## How D.A.D Works
