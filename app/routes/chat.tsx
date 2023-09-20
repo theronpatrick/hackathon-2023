@@ -31,8 +31,9 @@ function ChatApp() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true); // Set loading state to true when submitting
+    if (inputText !== '') {
+      e.preventDefault();
+      setIsLoading(true); // Set loading state to true when submitting
 
     const updatedConversation = [
       ...conversation,
@@ -57,7 +58,7 @@ function ChatApp() {
         },
       );
 
-      const message = response.data.choices[0].message.content;
+        const message = response.data.choices[0].message.content;
 
       updateConversation([
         ...updatedConversation,
