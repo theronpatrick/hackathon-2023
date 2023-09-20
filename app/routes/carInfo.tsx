@@ -30,7 +30,7 @@ export default function CarInfo(props: CarInfoProps) {
   };
   return (
     <div className="landingContainer">
-      <h1 className="logoHeader">Car Info?</h1>
+      <h1 className="logoHeader">Enter Car Info </h1>
       <div className="instructions">
         <p></p>
         <FormControl fullWidth>
@@ -98,9 +98,24 @@ export default function CarInfo(props: CarInfoProps) {
             </Select>
           </FormControl>
         )}
-        <TextField id="outlined-basic" label="Year" variant="outlined" />
-        <TextField id="outlined-basic" label="Mileage" variant="outlined" />
-        <TextField id="outlined-basic" label="Car Price" variant="outlined" />
+        <TextField
+          id="outlined-basic"
+          label="Year"
+          variant="outlined"
+          margin="normal"
+        />
+        <TextField
+          id="outlined-basic"
+          label="Mileage"
+          variant="outlined"
+          margin="normal"
+        />
+        <TextField
+          id="outlined-basic"
+          label="Car Price"
+          variant="outlined"
+          margin="normal"
+        />
       </div>
       <Link
         className=""

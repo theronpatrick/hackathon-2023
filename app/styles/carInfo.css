@@ -14,6 +14,9 @@
   color: white;
   outline-color: white;
   border-color: white;
+  border: 1px solid white;
+  border-radius: 8px;
+  margin: 10px;
 }
 #outlined-basic-label {
   color: white;
@@ -23,6 +26,12 @@
   color: white !important;
   outline-color: white;
   border-color: white;
+}
+#demo-simple-select {
+  border: 1px solid white;
+  border-radius: 8px;
+  color: white;
+  margin: 10px;
 }
 
 .logoHeader {
