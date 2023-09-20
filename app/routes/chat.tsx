@@ -10,15 +10,15 @@ import "../styles/chat.css";
 function ChatApp() {
   const [inputText, setInputText] = useState("");
   const [conversation, updateConversation] = useState([]);
+  const [addonPrice, updateAddonPrice] = useState(0);
   const [isLoading, setIsLoading] = useState(false); // Add a loading state
+  const [showNotification, setShowNotification] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const decodedParams = decodeStateFromSearchParams(searchParams);
 
   const context = roles[decodedParams.role] || roles.newbie;
   const conversationContext = { role: "system", content: context };
-
-  console.log("convo is ", conversation);
 
   const tempBudget = 15000;
   const carPrice = 7000;
@@ -34,7 +34,7 @@ function ChatApp() {
     if (inputText !== '') {
       e.preventDefault();
       setIsLoading(true); // Set loading state to true when submitting
-
+    }
     const updatedConversation = [
       ...conversation,
       { role: "user", content: inputText },
@@ -43,6 +43,7 @@ function ChatApp() {
     updateConversation(updatedConversation);
 
     console.log("updated ", updatedConversation);
+    console.log("bot msg", [conversationContext, ...updatedConversation]);
 
     try {
       const response = await axios.post(
@@ -60,6 +61,31 @@ function ChatApp() {
 
         const message = response.data.choices[0].message.content;
 
+     const dollarAmountRegex = /\$[\d,.]+/g; // Matches any sequence of digits, commas, and periods after a dollar sign
+
+    const dollarAmountMatches = message.match(dollarAmountRegex);
+
+    console.log(dollarAmountMatches);
+
+    if (dollarAmountMatches && dollarAmountMatches.length > 0) {
+      // Extract and process all matched dollar amounts
+      const extractedDollarAmounts = dollarAmountMatches.map((match) => {
+        // Remove commas and convert to a numeric value
+        return parseFloat(match.replace(/[^0-9.]/g, ''));
+      });
+
+      // Update the addonPrice state with the extracted dollar amount(s)
+      const currentAddonPrice = addonPrice;
+      updateAddonPrice(currentAddonPrice + extractedDollarAmounts[0]);
+      // Show the notification
+      setShowNotification(true);
+
+      // Automatically hide the notification after 3 seconds (adjust the delay as needed)
+      setTimeout(() => {
+        setShowNotification(false);
+      }, 3000);
+    }
+
       updateConversation([
         ...updatedConversation,
         { role: "system", content: message },
@@ -71,6 +97,8 @@ function ChatApp() {
       setInputText("");
     }
   };
+
+  console.log(addonPrice);
 
   return (
     <main className="dadChatContainer">
@@ -132,6 +160,16 @@ function ChatApp() {
           >
             {"Car Price"}
           </div>
+          {addonPrice > 0 && (
+            <div
+            className="addon bar"
+            style={{ width: `${(addonPrice / tempBudget) * 100}%` }}
+          >
+            {showNotification && (
+              <span className="notification">Your projected add-on</span>
+            )}
+          </div>
+          )}
         </div>
       </div>
     </main>

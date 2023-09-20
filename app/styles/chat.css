@@ -40,6 +40,7 @@
   width: 100%;
   background-color: rgb(186, 186, 186);
   height: 3rem;
+  display: flex;
 }
 .submitButton {
   border-radius: 50%;
@@ -62,13 +63,32 @@
   height: 100%;
 }
 
+.addon {
+  background-color: yellow;
+  height: 100%;
+  position: relative;
+  transition: width 0.3s ease-in-out;
+}
+
+.notification {
+  background-color: white;
+  color: #003a70;
+  padding: 0.5rem;
+  border-radius: 5px;
+  position: absolute;
+  top:  -20px;
+  width: 190px;
+}
+
 .userChat {
   background-color: #F5323D;
   margin-left: auto;
+  border-radius: 5px 5px 0 5px;
 }
 
 .botChat {
   background-color: #00A0DD;
+  border-radius: 5px 5px 5px 0;
 }
 
 .response {
@@ -80,7 +100,7 @@
 .msgContent {
   padding: 1rem;
   display: inline-block;
-  border-radius: 5px;
+  
 }
 .inputFooter {
   height: 10%;
@@ -93,5 +113,7 @@
 
 .spin {
   display: block;
+  color:#003a70;
+  font-size: 30px;
   animation: spin 1s linear infinite;
 }

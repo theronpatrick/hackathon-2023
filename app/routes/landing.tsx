@@ -38,7 +38,8 @@ export default function LandingPage(props: LandingPageProps) {
 
   return (
     <div className="landingContainer">
-      <h1 className="logoHeader">D.A.D</h1>
+      <h1 className="landingLogoHeader">D<span className="dot">.</span>A<span className="dot">.</span>D<span className="dot">.</span></h1>
+      <h5 className="cargurus">by CarGurus</h5>
       <div className="landingInstructions">
         <p>
           Are you tired of walking into a car dealership and feeling overwhelmed
