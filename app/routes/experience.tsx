@@ -1,5 +1,7 @@
 import "../styles/experience.css";
 import "react-dropdown/style.css";
+
+import React, { useState } from "react";
 import { Button } from "@mui/material";
 import { Link } from "@remix-run/react";
 import { styled } from "@mui/material/styles";
@@ -16,52 +18,76 @@ const StyledRating = styled(Rating)(({ theme }) => ({
   },
 }));
 
-const customIcons: {
-  [index: string]: {
-    icon: React.ReactElement;
-    label: string;
-  };
-} = {
-  1: {
-    icon: <SentimentVeryDissatisfiedIcon color="error" />,
-    label: "Very Dissatisfied",
-  },
-  2: {
-    icon: <SentimentDissatisfiedIcon color="error" />,
-    label: "Dissatisfied",
-  },
-  3: {
-    icon: <SentimentSatisfiedIcon color="warning" />,
-    label: "Neutral",
-  },
-  4: {
-    icon: <SentimentSatisfiedAltIcon color="success" />,
-    label: "Satisfied",
-  },
-  5: {
-    icon: <SentimentVerySatisfiedIcon color="success" />,
-    label: "Very Satisfied",
-  },
-};
-
 function IconContainer(props: IconContainerProps) {
   const { value, ...other } = props;
-  return <span {...other}>{customIcons[value].icon}</span>;
+  return <span {...other}>{customIcons[value].icon} </span>;
 }
 
+const customIcons = [
+  { icon: <SentimentVeryDissatisfiedIcon color="error" />, label: "Beginner" },
+  {
+    icon: <SentimentDissatisfiedIcon color="error" />,
+    label: "Novice",
+  },
+  {
+    icon: <SentimentSatisfiedIcon color="warning" />,
+    label: "Intermediate",
+  },
+  {
+    icon: <SentimentSatisfiedAltIcon color="success" />,
+    label: "Advanced",
+  },
+  {
+    icon: <SentimentVerySatisfiedIcon color="success" />,
+    label: "Expert",
+  },
+];
+
 export default function Experience() {
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+
+  const handleClick = (index) => {
+    console.log("clicked ", index);
+
+    setSelectedIndex(index);
+  };
+
+  const SmileIcons = () => {
+    return customIcons.map((icon, index) => {
+      const isSelected = index === selectedIndex;
+
+      console.log("index ", index);
+      console.log("selected", selectedIndex);
+
+      const buttonClassName = `experienceButton ${
+        isSelected ? "selected" : ""
+      }`;
+
+      return (
+        <Button
+          className={buttonClassName}
+          onClick={() => {
+            handleClick(index);
+          }}
+        >
+          {icon.icon}
+          {index === 0 && (
+            <label className="experienceSmileLabel">Not Much</label>
+          )}
+          {index === customIcons.length - 1 && (
+            <label className="experienceSmileLabel">Car Guru</label>
+          )}
+        </Button>
+      );
+    });
+  };
+
   return (
     <div className="landingContainer">
-      <h1 className="logoHeader">How experienced with cars are you?</h1>
+      <h1 className="logoHeader">How much do you know about cars?</h1>
 
       <div className="instructions">
-        <StyledRating
-          name="highlight-selected-only"
-          defaultValue={2}
-          IconContainerComponent={IconContainer}
-          getLabelText={(value: number) => customIcons[value].label}
-          highlightSelectedOnly
-        />
+        <SmileIcons />
       </div>
 
       <Link
