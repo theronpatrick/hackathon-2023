@@ -73,8 +73,10 @@ export default function Script (props: ScriptProps) {
             <h1 className="heading">Thanks for your Response!</h1>
             <h4 className="listHeading">Here are some focus points for when you go to the dealership:</h4>
             <ul>
-                {bulletPointArray && bulletPointArray.map((bullet) => {
-                    return <li>{`-${bullet}`}</li>
+                {response !== '' && bulletPointArray.map((bullet) => {
+                    if (bullet !== '') {
+                        return <li>{`-${bullet}`}</li>
+                    }
                 })}
             </ul>
         </div>
