@@ -4,7 +4,7 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { Link, useLocation } from "@remix-run/react";
-import captureFormValues from '../helpers/formCapture.js'
+import captureFormValues from "../helpers/formCapture.js";
 
 export interface PackagesProps {}
 
@@ -16,7 +16,9 @@ export default function Packages(props: PackagesProps) {
   const handleChange = (e) => {
     const selectedFeature = e.target.name;
     if (selectedFeatures.includes(selectedFeature)) {
-      selectedFeatures = selectedFeatures.filter((feature) => feature !== selectedFeature)
+      selectedFeatures = selectedFeatures.filter(
+        (feature) => feature !== selectedFeature,
+      );
     } else {
       selectedFeatures.push(selectedFeature);
     }
@@ -47,8 +49,8 @@ export default function Packages(props: PackagesProps) {
           />
           <FormControlLabel
             control={<Checkbox />}
-            label="Pain protection"
-            name="Pain protection"
+            label="Paint protection"
+            name="Paint protection"
           />
           <FormControlLabel
             control={<Checkbox />}
