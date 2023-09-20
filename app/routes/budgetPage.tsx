@@ -8,11 +8,11 @@ import { Link } from "@remix-run/react";
 export interface BudgetPageProps {}
 
 function calculateValue(value: number) {
-  return 2 ** value;
+  return value * 1000;
 }
 
 export default function NonLinearSlider(props: BudgetPageProps) {
-  const [value, setValue] = React.useState<number>(10);
+  const [value, setValue] = React.useState<number>(0);
   const handleChange = (event: Event, newValue: number | number[]) => {
     if (typeof newValue === "number") {
       setValue(newValue);
@@ -30,9 +30,6 @@ export default function NonLinearSlider(props: BudgetPageProps) {
           </Typography>
         </div>
         <Slider
-          min={5}
-          step={1}
-          max={30}
           scale={calculateValue}
           onChange={handleChange}
           valueLabelDisplay="auto"

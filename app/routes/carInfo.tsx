@@ -100,7 +100,7 @@ export default function CarInfo(props: CarInfoProps) {
         )}
         <TextField id="outlined-basic" label="Year" variant="outlined" />
         <TextField id="outlined-basic" label="Mileage" variant="outlined" />
-        <TextField id="outlined-basic" label="Price" variant="outlined" />
+        <TextField id="outlined-basic" label="Car Price" variant="outlined" />
       </div>
       <Link
         className=""
