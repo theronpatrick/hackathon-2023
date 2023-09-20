@@ -26,13 +26,13 @@ export default function PrioritiesPage(props: PrioritiesPageProps) {
         <Rating name="size-large" defaultValue={2} size="large" />
       </Box>
       <Link
-                className=""
-                to={{
-                  pathname: "/script",
-                }}
-              >
-                Go to Chat {'->'}
-              </Link>
+        className=""
+        to={{
+          pathname: "/script",
+        }}
+      >
+        <button className="nextButton">Go To Chat ➡️</button>
+      </Link>
     </div>
   );
 }

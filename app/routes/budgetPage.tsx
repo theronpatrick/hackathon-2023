@@ -42,18 +42,13 @@ export default function NonLinearSlider(props: BudgetPageProps) {
         />
       </Box>
       <Link
-                className=""
-                to={{
-                  pathname: "/experience",
-                }}
-              >
-                Next Questions {'->'}
-              </Link>
+        className=""
+        to={{
+          pathname: "/experience",
+        }}
+      >
+        <button className="nextButton">Next Question ➡️</button>
+      </Link>
     </div>
-
-    
-    
-
-    
   );
 }

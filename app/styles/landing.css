@@ -24,10 +24,3 @@ body {
   margin-bottom: 10px;
   font-size: 22px;
 }
-button {
-  background-color: transparent;
-  padding: 1rem 2rem;
-  border: 1px solid white;
-  border-radius: 8px;
-  font-size: 22px;
-}

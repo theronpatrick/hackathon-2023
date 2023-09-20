@@ -1,4 +1,5 @@
 import "../styles/landing.css";
+import "../styles/nextButton.css";
 import React, { useState, useEffect } from "react";
 import { Link } from "@remix-run/react";
 import { roles } from "../helpers/roles";
@@ -86,7 +87,7 @@ export default function LandingPage(props: LandingPageProps) {
           search: encodeStateToSearchParams({ role }),
         }}
       >
-        <button>Get Started ➡️</button>
+        <button className="nextButton">Get Started ➡️</button>
       </Link>
     </div>
   );
