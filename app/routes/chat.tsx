@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSearchParams } from "@remix-run/react";
 
@@ -16,8 +16,9 @@ function ChatApp() {
   const decodedParams = decodeStateFromSearchParams(searchParams);
 
   const context = roles[decodedParams.role] || roles.newbie;
+  const conversationContext = { role: "system", content: context };
 
-  console.log("context is ", context);
+  console.log("convo is ", conversation);
 
   const tempBudget = 15000;
   const carPrice = 7000;
@@ -30,25 +31,24 @@ function ChatApp() {
   };
 
   const handleSubmit = async (e) => {
-    updateConversation([...conversation, inputText]);
     e.preventDefault();
     setIsLoading(true); // Set loading state to true when submitting
+
+    const updatedConversation = [
+      ...conversation,
+      { role: "user", content: inputText },
+    ];
+
+    updateConversation(updatedConversation);
+
+    console.log("updated ", updatedConversation);
 
     try {
       const response = await axios.post(
         apiUrl,
         {
           model: "gpt-3.5-turbo",
-          messages: [
-            {
-              role: "system",
-              content: context,
-            },
-            {
-              role: "user",
-              content: inputText,
-            },
-          ],
+          messages: [conversationContext, ...updatedConversation],
         },
         {
           headers: {
@@ -60,9 +60,8 @@ function ChatApp() {
       const message = response.data.choices[0].message.content;
 
       updateConversation([
-        ...conversation,
-        { role: "user", content: inputText },
-        { role: "bot", content: message },
+        ...updatedConversation,
+        { role: "system", content: message },
       ]);
     } catch (error) {
       console.error("Error:", error);
