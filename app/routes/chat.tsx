@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useSearchParams } from "@remix-run/react";
+import { useSearchParams, useLocation } from "@remix-run/react";
 
 import { decodeStateFromSearchParams } from "../helpers/params";
 import { roles } from "../helpers/roles";
@@ -13,15 +13,36 @@ function ChatApp() {
   const [addonPrice, updateAddonPrice] = useState(0);
   const [isLoading, setIsLoading] = useState(false); // Add a loading state
   const [showNotification, setShowNotification] = useState(false);
-
+  const location  = useLocation();
+  const formValues = location.state;
   const [searchParams, setSearchParams] = useSearchParams();
   const decodedParams = decodeStateFromSearchParams(searchParams);
 
-  const context = roles[decodedParams.role] || roles.newbie;
+  let context = roles[decodedParams.role] || roles.newbie;
+  context +=  `
+    You are going to provide advice and answer questions for a user who is trying to buy a car. The user has gone through and answered a bunch of questions that I will provide you the data for right now:
+      Person's total budget: ${formValues.budget}
+      Person's car buying experience level (from a scale of 1 to 5): ${formValues.experience + 1}
+      The car they are looking at: ${formValues.year} ${formValues.make} ${formValues.model}
+      That car's mileage: ${formValues.mileage}
+      That car's price: ${formValues.price}
+      List of features the person is potentially interested in: ${
+          formValues.selectedFeatures.map((feature) => (`${feature}, `))
+      }
+      Person's priorities when it comes to car buying (each priority is on a scale of 1 to 5): 
+          Price: ${formValues.priorities.price} 
+          Safety: ${formValues.priorities.safety}
+          Tech: ${formValues.priorities.tech}
+          Upgrades: ${formValues.priorities.upgrades}
+      Now use this data to give the user the best possible advice. Phrase each response like you are responding to me.
+      Now give a greeting as a response.
+  `;
   const conversationContext = { role: "system", content: context };
 
-  const tempBudget = 15000;
-  const carPrice = 7000;
+  
+
+  const budget = formValues.budget;
+  const carPrice = formValues.price;
 
   const secretKey = "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";
   const apiUrl = "https://api.openai.com/v1/chat/completions"; // Replace with the actual API endpoint
@@ -31,74 +52,72 @@ function ChatApp() {
   };
 
   const handleSubmit = async (e) => {
-    if (inputText !== '') {
-      e.preventDefault();
+      if (e) {
+        e.preventDefault();
+      }
+      
       setIsLoading(true); // Set loading state to true when submitting
-    }
-    const updatedConversation = [
-      ...conversation,
-      { role: "user", content: inputText },
-    ];
+      const updatedConversation = [
+        ...conversation,
+        { role: "user", content: inputText },
+      ];
 
-    updateConversation(updatedConversation);
+      updateConversation(updatedConversation);
 
-    console.log("updated ", updatedConversation);
-    console.log("bot msg", [conversationContext, ...updatedConversation]);
-
-    try {
-      const response = await axios.post(
-        apiUrl,
-        {
-          model: "gpt-3.5-turbo",
-          messages: [conversationContext, ...updatedConversation],
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${secretKey}`,
+      try {
+        const response = await axios.post(
+          apiUrl,
+          {
+            model: "gpt-3.5-turbo",
+            messages: [conversationContext, ...updatedConversation],
           },
-        },
-      );
+          {
+            headers: {
+              Authorization: `Bearer ${secretKey}`,
+            },
+          },
+        );
 
-        const message = response.data.choices[0].message.content;
+          const message = response.data.choices[0].message.content;
 
-     const dollarAmountRegex = /\$[\d,.]+/g; // Matches any sequence of digits, commas, and periods after a dollar sign
+      const dollarAmountRegex = /\$[\d,.]+/g; // Matches any sequence of digits, commas, and periods after a dollar sign
 
-    const dollarAmountMatches = message.match(dollarAmountRegex);
+      const dollarAmountMatches = message.match(dollarAmountRegex);
 
-    console.log(dollarAmountMatches);
+      if (dollarAmountMatches && dollarAmountMatches.length > 0) {
+        // Extract and process all matched dollar amounts
+        const extractedDollarAmounts = dollarAmountMatches.map((match) => {
+          // Remove commas and convert to a numeric value
+          return parseFloat(match.replace(/[^0-9.]/g, ''));
+        });
 
-    if (dollarAmountMatches && dollarAmountMatches.length > 0) {
-      // Extract and process all matched dollar amounts
-      const extractedDollarAmounts = dollarAmountMatches.map((match) => {
-        // Remove commas and convert to a numeric value
-        return parseFloat(match.replace(/[^0-9.]/g, ''));
-      });
+        // Update the addonPrice state with the extracted dollar amount(s)
+        const currentAddonPrice = addonPrice;
+        updateAddonPrice(currentAddonPrice + extractedDollarAmounts[0]);
+        // Show the notification
+        setShowNotification(true);
 
-      // Update the addonPrice state with the extracted dollar amount(s)
-      const currentAddonPrice = addonPrice;
-      updateAddonPrice(currentAddonPrice + extractedDollarAmounts[0]);
-      // Show the notification
-      setShowNotification(true);
-
-      // Automatically hide the notification after 3 seconds (adjust the delay as needed)
-      setTimeout(() => {
-        setShowNotification(false);
-      }, 3000);
-    }
-
-      updateConversation([
-        ...updatedConversation,
-        { role: "system", content: message },
-      ]);
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      setIsLoading(false); // Set loading state back to false when the response is returned
-      setInputText("");
-    }
+        // Automatically hide the notification after 3 seconds (adjust the delay as needed)
+        setTimeout(() => {
+          setShowNotification(false);
+        }, 3000);
+      }
+        updateConversation([
+          ...updatedConversation,
+          { role: "system", content: message },
+        ]);
+      } catch (error) {
+        console.error("Error:", error);
+      } finally {
+        setIsLoading(false); // Set loading state back to false when the response is returned
+        setInputText("");
+      }
+    
   };
 
-  console.log(addonPrice);
+  useEffect(() => {
+    handleSubmit();    
+  }, [])
 
   return (
     <main className="dadChatContainer">
@@ -106,7 +125,8 @@ function ChatApp() {
         {conversation &&
           conversation.map((message) => {
             return (
-              <div className={"response"}>
+              <>
+              {message.content !== '' && (<div className={"response"}>
                 <div
                   className={`${
                     message.role === "user" ? "userChat" : "botChat"
@@ -114,7 +134,8 @@ function ChatApp() {
                 >
                   {message.content}
                 </div>
-              </div>
+              </div>)}</>
+              
             );
           })}
       </div>
@@ -156,14 +177,14 @@ function ChatApp() {
         <div className="budgetTracker">
           <div
             className="price bar"
-            style={{ width: `${(carPrice / tempBudget) * 100}%` }}
+            style={{ width: `${(carPrice / budget) * 100}%` }}
           >
             {"Car Price"}
           </div>
           {addonPrice > 0 && (
             <div
             className="addon bar"
-            style={{ width: `${(addonPrice / tempBudget) * 100}%` }}
+            style={{ width: `${(addonPrice / budget) * 100}%` }}
           >
             {showNotification && (
               <span className="notification">Your projected add-on</span>

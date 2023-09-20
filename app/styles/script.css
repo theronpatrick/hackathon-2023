@@ -1,0 +1,20 @@
+.scriptContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    flex-direction: column;
+}
+.scriptContent {
+    color: #003a70;
+    background-color: white;
+    padding: 1rem;
+    height: 90%;
+    overflow-y: scroll;
+}
+.chatWithDad {
+    color: white;
+    margin-top: 1rem;
+}
