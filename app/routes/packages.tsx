@@ -16,47 +16,47 @@ export default function Packages(props: PackagesProps) {
       <div className="instructions">
         <FormGroup>
           <FormControlLabel
-            control={<Checkbox defaultChecked />}
+            control={<Checkbox />}
             label="Rust proofing"
           />
           <FormControlLabel
-            control={<Checkbox defaultChecked />}
+            control={<Checkbox />}
             label="Environmental protection packages"
           />
           <FormControlLabel
-            control={<Checkbox defaultChecked />}
+            control={<Checkbox />}
             label="Fabric protection"
           />
           <FormControlLabel
-            control={<Checkbox defaultChecked />}
+            control={<Checkbox />}
             label="Pain protection"
           />
           <FormControlLabel
-            control={<Checkbox defaultChecked />}
+            control={<Checkbox />}
             label="Nitrogen in tires"
           />
           <FormControlLabel
-            control={<Checkbox defaultChecked />}
+            control={<Checkbox />}
             label="Delivery fees "
           />
           <FormControlLabel
-            control={<Checkbox defaultChecked />}
+            control={<Checkbox />}
             label="Extended warranty"
           />
           <FormControlLabel
-            control={<Checkbox defaultChecked />}
+            control={<Checkbox />}
             label="VIN etching"
           />
           <FormControlLabel
-            control={<Checkbox defaultChecked />}
+            control={<Checkbox />}
             label="Alarms and tracking systems"
           />
           <FormControlLabel
-            control={<Checkbox defaultChecked />}
+            control={<Checkbox />}
             label="Windshield, wheel, and dent protection"
           />
           <FormControlLabel
-            control={<Checkbox defaultChecked />}
+            control={<Checkbox />}
             label="Key fob replacements"
           />
         </FormGroup>
