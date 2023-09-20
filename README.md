@@ -1,12 +1,5 @@
-# Remix Indie Stack
-
-![The Remix Indie Stack](https://repository-images.githubusercontent.com/465928257/a241fa49-bd4d-485a-a2a5-5cb8e4ee0abf)
-
-Learn more about [Remix Stacks](https://remix.run/stacks).
-
-```sh
-npx create-remix@latest --template remix-run/indie-stack
-```
+## DAD: Dealership Automated Deliberator
+An automated tool to help deliberate various features, charges, or negotiation tactics while purchasing a car at a dealership. For instance, if you’re buying a car and the finance person says ‘You can add rust proofing for your taillights for $99 a month’ you can ask DAD if that’s a good deal or not. 
 
 ## What's in the stack
 
