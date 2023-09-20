@@ -9,19 +9,18 @@ export interface PrioritiesPageProps {}
 
 export default function PrioritiesPage(props: PrioritiesPageProps) {
   const location = useLocation();
-  const formValues = location.state || {};
   let priorities = {
     safety: '2',
     price: '2',
     tech: '2',
     upgrades: '2'
   }
+  const formValues = location.state || {};
+  formValues.priorities = priorities;
 
   const handleChange = (e: SelectChangeEvent) => { 
     priorities[e.target.name] = e.target.value;
     formValues.priorities = priorities;
-    console.log(priorities);
-    console.log(formValues);
   };
   return (
     <div className="landingContainer">
