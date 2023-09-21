@@ -42,7 +42,7 @@ Click this button to create a [Gitpod](https://gitpod.io) workspace with the pro
 
 ## Development
 
-- A valid API key is required to communicate with ChatGBT API. See instructions in [/app/keys/README.md](/app/keys/_README.md) on how to add it.
+- A valid API key is required to communicate with ChatGBT API. See instructions in [/app/keys/README.md](/app/keys/README.md) on how to add it.
 
 - Initial setup:
 
