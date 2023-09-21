@@ -1,17 +1,19 @@
 # DAD: Dealership Automated Deliberator
-## Theron Patrick, Jeff Golota, Daniel Castrillon Reyes, Ananya Radhakrishnan, Muno Ali  
+
+## Theron Patrick, Jeff Golota, Daniel Castrillon Reyes, Ananya Radhakrishnan, Muno Ali
 
 Are you tired of walking into a car dealership and feeling overwhelmed by the barrage of add-ons and options being thrown your way? Say goodbye to that anxiety, because D.A.D is here to be your trusted companion in the car-buying journey. D.A.D, which stands for "Dealership Automated Deliberator," is your personal chatbot assistant designed to help you navigate the intricate world of car dealerships with confidence and ease.
 
 ## How D.A.D Works
+
 Our intuitive chatbot will guide you through the process, starting with a few simple questions. Tell us the make, model, year, and mileage of the vehicle you're interested in, your budget constraints, and just how assertive you want to be during negotiations. Armed with this information, D.A.D will become your strategic ally, helping you make informed decisions while negotiating with dealerships.
 
-
 ## Your Trusted Negotiation Partner
+
 D.A.D is your trusted negotiation partner in this exciting yet often challenging adventure. We'll analyze the add-ons and extras offered by the dealership and provide you with expert advice on whether they're a good deal or not. Whether you're a seasoned car buyer or a first-time shopper, D.A.D's goal is to ensure that you leave the dealership with not just a car, but also a smile on your face and a deal that suits your preferences and budget.
 
-
 ## Empower Yourself with D.A.D
+
 Bid farewell to confusion and high-pressure situations. Let D.A.D be your advocate, making the right choices, saving you money, and ensuring a pleasant dealership experience. Let's get started!
 
 ## What's in the stack
@@ -39,6 +41,8 @@ Click this button to create a [Gitpod](https://gitpod.io) workspace with the pro
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/remix-run/indie-stack/tree/main)
 
 ## Development
+
+- A valid API key is required to communicate with ChatGBT API. See instructions in [/app/keys/README.md](/app/keys/_README.md) on how to add it.
 
 - Initial setup:
 

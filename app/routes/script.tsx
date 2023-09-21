@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "@remix-run/react";
 import axios from "axios";
 
-import { secretKey } from "../helpers/api";
+import { secretKey } from "../keys/api";
 
 import "../styles/script.css";
 

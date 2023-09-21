@@ -4,7 +4,7 @@ import { useSearchParams, useLocation } from "@remix-run/react";
 
 import { decodeStateFromSearchParams } from "../helpers/params";
 import { roles } from "../helpers/roles";
-import { secretKey } from "../helpers/api";
+import { secretKey } from "../keys/api";
 
 import "../styles/chat.css";
 
