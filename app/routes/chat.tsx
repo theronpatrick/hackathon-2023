@@ -4,6 +4,7 @@ import { useSearchParams, useLocation } from "@remix-run/react";
 
 import { decodeStateFromSearchParams } from "../helpers/params";
 import { roles } from "../helpers/roles";
+import { secretKey } from "../helpers/api";
 
 import "../styles/chat.css";
 
@@ -13,22 +14,26 @@ function ChatApp() {
   const [addonPrice, updateAddonPrice] = useState(0);
   const [isLoading, setIsLoading] = useState(false); // Add a loading state
   const [showNotification, setShowNotification] = useState(false);
-  const location  = useLocation();
+  const location = useLocation();
   const formValues = location.state;
   const [searchParams, setSearchParams] = useSearchParams();
   const decodedParams = decodeStateFromSearchParams(searchParams);
 
   let context = roles[decodedParams.role] || roles.newbie;
-  context +=  `
+  context += `
     You are going to provide advice and answer questions for a user who is trying to buy a car. The user has gone through and answered a bunch of questions that I will provide you the data for right now:
       Person's total budget: ${formValues.budget}
-      Person's car buying experience level (from a scale of 1 to 5): ${formValues.experience + 1}
-      The car they are looking at: ${formValues.year} ${formValues.make} ${formValues.model}
+      Person's car buying experience level (from a scale of 1 to 5): ${
+        formValues.experience + 1
+      }
+      The car they are looking at: ${formValues.year} ${formValues.make} ${
+        formValues.model
+      }
       That car's mileage: ${formValues.mileage}
       That car's price: ${formValues.price}
-      List of features the person is potentially interested in: ${
-          formValues.selectedFeatures.map((feature) => (`${feature}, `))
-      }
+      List of features the person is potentially interested in: ${formValues.selectedFeatures.map(
+        (feature) => `${feature}, `,
+      )}
       Person's priorities when it comes to car buying (each priority is on a scale of 1 to 5): 
           Price: ${formValues.priorities.price} 
           Safety: ${formValues.priorities.safety}
@@ -39,46 +44,43 @@ function ChatApp() {
   `;
   const conversationContext = { role: "system", content: context };
 
-  
-
   const budget = formValues.budget;
   const carPrice = formValues.price;
 
-  const secretKey = "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";
-  const apiUrl = "https://api.openai.com/v1/chat/completions"; // Replace with the actual API endpoint
+  const apiUrl = "https://api.openai.com/v1/chat/completions";
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
   };
 
   const handleSubmit = async (e) => {
-      if (e) {
-        e.preventDefault();
-      }
-      
-      setIsLoading(true); // Set loading state to true when submitting
-      const updatedConversation = [
-        ...conversation,
-        { role: "user", content: inputText },
-      ];
+    if (e) {
+      e.preventDefault();
+    }
 
-      updateConversation(updatedConversation);
+    setIsLoading(true); // Set loading state to true when submitting
+    const updatedConversation = [
+      ...conversation,
+      { role: "user", content: inputText },
+    ];
 
-      try {
-        const response = await axios.post(
-          apiUrl,
-          {
-            model: "gpt-3.5-turbo",
-            messages: [conversationContext, ...updatedConversation],
+    updateConversation(updatedConversation);
+
+    try {
+      const response = await axios.post(
+        apiUrl,
+        {
+          model: "gpt-3.5-turbo",
+          messages: [conversationContext, ...updatedConversation],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${secretKey}`,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${secretKey}`,
-            },
-          },
-        );
+        },
+      );
 
-          const message = response.data.choices[0].message.content;
+      const message = response.data.choices[0].message.content;
 
       const dollarAmountRegex = /\$[\d,.]+/g; // Matches any sequence of digits, commas, and periods after a dollar sign
 
@@ -88,7 +90,7 @@ function ChatApp() {
         // Extract and process all matched dollar amounts
         const extractedDollarAmounts = dollarAmountMatches.map((match) => {
           // Remove commas and convert to a numeric value
-          return parseFloat(match.replace(/[^0-9.]/g, ''));
+          return parseFloat(match.replace(/[^0-9.]/g, ""));
         });
 
         // Update the addonPrice state with the extracted dollar amount(s)
@@ -102,22 +104,21 @@ function ChatApp() {
           setShowNotification(false);
         }, 3000);
       }
-        updateConversation([
-          ...updatedConversation,
-          { role: "system", content: message },
-        ]);
-      } catch (error) {
-        console.error("Error:", error);
-      } finally {
-        setIsLoading(false); // Set loading state back to false when the response is returned
-        setInputText("");
-      }
-    
+      updateConversation([
+        ...updatedConversation,
+        { role: "system", content: message },
+      ]);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsLoading(false); // Set loading state back to false when the response is returned
+      setInputText("");
+    }
   };
 
   useEffect(() => {
-    handleSubmit();    
-  }, [])
+    handleSubmit();
+  }, []);
 
   return (
     <main className="dadChatContainer">
@@ -126,16 +127,18 @@ function ChatApp() {
           conversation.map((message) => {
             return (
               <>
-              {message.content !== '' && (<div className={"response"}>
-                <div
-                  className={`${
-                    message.role === "user" ? "userChat" : "botChat"
-                  } msgContent`}
-                >
-                  {message.content}
-                </div>
-              </div>)}</>
-              
+                {message.content !== "" && (
+                  <div className={"response"}>
+                    <div
+                      className={`${
+                        message.role === "user" ? "userChat" : "botChat"
+                      } msgContent`}
+                    >
+                      {message.content}
+                    </div>
+                  </div>
+                )}
+              </>
             );
           })}
       </div>
@@ -183,13 +186,13 @@ function ChatApp() {
           </div>
           {addonPrice > 0 && (
             <div
-            className="addon bar"
-            style={{ width: `${(addonPrice / budget) * 100}%` }}
-          >
-            {showNotification && (
-              <span className="notification">Your projected add-on</span>
-            )}
-          </div>
+              className="addon bar"
+              style={{ width: `${(addonPrice / budget) * 100}%` }}
+            >
+              {showNotification && (
+                <span className="notification">Your projected add-on</span>
+              )}
+            </div>
           )}
         </div>
       </div>
